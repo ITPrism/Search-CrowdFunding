@@ -6,18 +6,16 @@
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <authorEmail>todor@itprism.com</authorEmail>
     <authorUrl>http://itprism.com</authorUrl>
-    <version>1.5</version>
-	<creationDate>31 May, 2014</creationDate>
+    <version>1.6</version>
+	<creationDate>20 February, 2014</creationDate>
 	<description><![CDATA[
     <p>Enables searching in CrowdFunding component.</p>
     <p><a href="http://itprism.com/" target="_blank">Subscribe for the newsletter</a> to receive <strong>gifts</strong>, <strong>discount codes</strong>, information about <strong>updates</strong> and information about <strong>new ITPrism extensions</strong>.</p>
-    <p>Please, <a href="http://extensions.joomla.org/extensions/e-commerce/donations/23876">vote for the extension</a> on Joomla! Extensions Directory</p>
+    <p>Please, <a href="http://extensions.joomla.org/extensions/extension/e-commerce/donations/crowdfunding">vote for the extension</a> on Joomla! Extensions Directory</p>
     ]]></description>
     
 	<files>
 		<filename plugin="crowdfunding">crowdfunding.php</filename>
-		<filename>index.html</filename>
-        
         <folder>language</folder>
 	</files>
     
