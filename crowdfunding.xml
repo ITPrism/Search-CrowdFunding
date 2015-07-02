@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" type="plugin" group="search" method="upgrade">
+<extension version="3.4" type="plugin" group="search" method="upgrade">
 	<name>PLG_SEARCH_CROWDFUNDING</name>
 	<author>Todor Iliev</author>
-    <copyright>Copyright (C) 2014 Todor Iliev ( ITPrism.com ). All rights reserved.</copyright>
+    <copyright>Copyright (C) 2015 Todor Iliev ( ITPrism.com ). All rights reserved.</copyright>
     <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
     <authorEmail>todor@itprism.com</authorEmail>
     <authorUrl>http://itprism.com</authorUrl>
-    <version>1.6</version>
-	<creationDate>20 February, 2014</creationDate>
+    <version>2.0</version>
+	<creationDate>30 June, 2015</creationDate>
 	<description><![CDATA[
-    <p>Enables searching in CrowdFunding component.</p>
+    <p>Enables searching in Crowdfunding component.</p>
     <p><a href="http://itprism.com/" target="_blank">Subscribe for the newsletter</a> to receive <strong>gifts</strong>, <strong>discount codes</strong>, information about <strong>updates</strong> and information about <strong>new ITPrism extensions</strong>.</p>
     <p>Please, <a href="http://extensions.joomla.org/extensions/extension/e-commerce/donations/crowdfunding">vote for the extension</a> on Joomla! Extensions Directory</p>
     ]]></description>

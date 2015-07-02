@@ -1,6 +1,6 @@
 <?php
 /**
- * @package      CrowdFunding
+ * @package      Crowdfunding
  * @subpackage   Plugins
  * @author       Todor Iliev
  * @copyright    Copyright (C) 2010 Todor Iliev <todor@itprism.com>. All rights reserved.
@@ -10,10 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('itprism.init');
-jimport('crowdfunding.init');
+jimport('Prism.init');
+jimport('Crowdfunding.init');
 
-class plgSearchCrowdFunding extends JPlugin
+class plgSearchCrowdfunding extends JPlugin
 {
     /**
      * @var Joomla\Registry\Registry
@@ -194,7 +194,7 @@ class plgSearchCrowdFunding extends JPlugin
         if ($rows) {
 
             foreach ($rows as $key => $row) {
-                $rows[$key]->href  = CrowdFundingHelperRoute::getDetailsRoute($row->slug, $row->catslug);
+                $rows[$key]->href  = CrowdfundingHelperRoute::getDetailsRoute($row->slug, $row->catslug);
                 $rows[$key]->text  = strip_tags($rows[$key]->text);
             }
 
