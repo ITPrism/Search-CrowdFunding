@@ -16,69 +16,51 @@ jimport('Crowdfunding.init');
 class plgSearchCrowdfunding extends JPlugin
 {
     /**
-     * @var Joomla\Registry\Registry
-     */
-    public $params;
-
-    /**
-     * Constructor
-     *
-     * @access      protected
-     *
-     * @param       object $subject The object to observe
-     * @param       array  $config  An array that holds the plugin configuration
-     *
-     * @since       1.5
-     */
-    public function __construct(& $subject, $config)
-    {
-        parent::__construct($subject, $config);
-        $this->loadLanguage();
-    }
-
-    /**
      * @return array An array of search areas
      */
     public function onContentSearchAreas()
     {
-        static $areas = array(
-            'projects' => 'PLG_SEARCH_CROWDFUNDING_PROJECTS'
-        );
+        static $areas;
+
+        if ($areas === null) {
+            $this->loadLanguage();
+
+            $areas = array(
+                'projects' => 'PLG_SEARCH_CROWDFUNDING_PROJECTS'
+            );
+        }
 
         return $areas;
     }
 
     /**
-     * Weblink Search method
+     * Crowdfunding Search method
      *
      * The sql must return the following fields that are used in a common display
      * routine: href, title, section, created, text, browsernav
      *
      * @param string $text Target search string
-     * @param string $phrase mathcing option, exact|any|all
+     * @param string $phrase matching option, exact|any|all
      * @param string $ordering ordering option, newest|oldest|popular|alpha|category
      * @param mixed  $areas An array if the search it to be restricted to areas, null if search all
      *
+     * @throws \RuntimeException
      * @return array
      */
     public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
     {
-        if (is_array($areas)) {
-            if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
-                return array();
-            }
+        if (is_array($areas) and !array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+            return array();
         }
 
         $limit = $this->params->def('search_limit', 20);
 
-        $text = JString::trim($text);
-        if ($text == '') {
+        $text = Joomla\String\StringHelper::trim($text);
+        if ($text === '') {
             return array();
         }
 
-        $return = $this->searchProjects($text, $phrase, $ordering, $limit);
-
-        return $return;
+        return $this->searchProjects($text, $phrase, $ordering, $limit);
     }
 
     /**
@@ -89,18 +71,17 @@ class plgSearchCrowdfunding extends JPlugin
      * @param string  $ordering
      * @param integer $limit
      *
+     * @throws \RuntimeException
      * @return array
      */
     private function searchProjects($text, $phrase, $ordering, $limit)
     {
-
         $db         = JFactory::getDbo();
         $searchText = $text;
         $wheres     = array();
         $rows       = array();
 
         switch ($phrase) {
-
             case 'exact':
                 $text     = $db->quote('%' . $db->escape($text, true) . '%', false);
                 $wheres[] = 'a.title LIKE ' . $text;
@@ -116,12 +97,11 @@ class plgSearchCrowdfunding extends JPlugin
                     $wheres[] = 'a.title LIKE ' . $word;
                     $wheres[] = implode(' OR ', $wheres);
                 }
-                $where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+                $where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
                 break;
         }
 
         switch ($ordering) {
-
             case 'oldest':
                 $order = 'a.created ASC';
                 break;
@@ -149,7 +129,6 @@ class plgSearchCrowdfunding extends JPlugin
         $query = $db->getQuery(true);
 
         if ($limit > 0) {
-
             $query->clear();
 
             //sqlsrv changes
@@ -178,28 +157,25 @@ class plgSearchCrowdfunding extends JPlugin
             $query->innerJoin('#__categories AS c ON a.catid = c.id');
 
             // WHERE
-            $query->where("( a.published = 1 )");
-            $query->where("( a.approved = 1 )");
+            $query->where('( a.published = 1 )');
+            $query->where('( a.approved = 1 )');
             $query->where($where);
 
             // ORDER
             $query->order($order);
 
-
             $db->setQuery($query, 0, $limit);
             $rows = $db->loadObjectList();
-
         }
 
         if ($rows) {
-
             foreach ($rows as $key => $row) {
                 $rows[$key]->href  = CrowdfundingHelperRoute::getDetailsRoute($row->slug, $row->catslug);
                 $rows[$key]->text  = strip_tags($rows[$key]->text);
             }
 
             foreach ($rows as $item) {
-                if (searchHelper::checkNoHTML($item, $searchText, array('title', 'text'))) {
+                if (SearchHelper::checkNoHtml($item, $searchText, array('title', 'text'))) {
                     $return[] = $item;
                 }
             }
